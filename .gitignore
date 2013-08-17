@@ -1,0 +1,6 @@
+# emacs ignore
+\#*
+.\#
+
+# osx configuration
+.DS_Store
