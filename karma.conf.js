@@ -3,6 +3,7 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'js/vendor/angular.min.js',
+  'js/vendor/angular-mocks.js',
   'js/public/**/*.js',
   'test/js/*.js',
 ];
