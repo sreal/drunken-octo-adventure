@@ -18,10 +18,12 @@ describe("app: ", function() {
     });
 
     describe ("test setup: ", function() {
+      it('injects $scope', function () {
+        expect($scope).toBeDefined();
+      });
       it('injects DataService', function () {
         expect(DataService).toBeDefined();
       });
-
     }); // test setup
 
   }); // dal
