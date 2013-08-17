@@ -4,6 +4,7 @@ files = [
   JASMINE_ADAPTER,
   'js/vendor/angular.min.js',
   'js/vendor/angular-mocks.js',
+  'js/vendor/underscore-min.js',
   'js/public/**/*.js',
   'test/js/*.js',
 ];
