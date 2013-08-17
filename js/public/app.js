@@ -9,12 +9,16 @@ angular.module('services').factory('DataService', ['$rootScope', function($rootS
     return commands;
   };
   service.addCommand = function(item) {
-    var itemArray = _.isArray(item)?item:[item];
-
-    commands = _.union(commands, itemArray);
+   var itemArray = _.isArray(item) ? item : [item];
+    commands = _.chain(commands)
+      .union(itemArray)
+      .without(undefined)
+      .value();
+    return commands;
   };
-  service.deleteCommand = function(item) {
-
+  service.removeCommand = function(item) {
+    commands = _.without(commands, item);
+    return commands;
   };
 
   return service;

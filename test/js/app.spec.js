@@ -30,61 +30,72 @@ describe("app: ", function() {
       it('loads with expected methods', function () {
         expect(DataService.getCommands).toBeDefined();
         expect(DataService.addCommand).toBeDefined();
-        expect(DataService.deleteCommand).toBeDefined();
+        expect(DataService.removeCommand).toBeDefined();
       });
 
       it('gets command list', function () {
-        var list = DataService.getCommands();
-        expect(list).toEqual([]);
+        expect(DataService.getCommands()).toEqual([]);
+      });
+      it('add returns commands', function () {
+        var cmd = { name: 'name' };
+        expect(DataService.addCommand( cmd )).toEqual([cmd]);
       });
       it('add', function () {
         var cmd = { name: 'name' };
-        DataService.addCommand( cmd );
-        var list = DataService.getCommands();
-        expect(list).toEqual([cmd]);
+        expect(DataService.addCommand( cmd )).toEqual([cmd]);
+      });
+      it('adds without duplicates', function () {
+        var cmd = { name: 'name' };
+        expect(DataService.addCommand( cmd )).toEqual([cmd]);
       });
       it('adds without duplicates', function () {
         var cmd = { name: 'name' };
         DataService.addCommand( cmd );
-        DataService.addCommand( cmd );
-        var list = DataService.getCommands();
-        expect(list).toEqual([cmd]);
-      });
-      it('adds without duplicates', function () {
-        var cmd = { name: 'name' };
-        DataService.addCommand( cmd );
-        DataService.addCommand( cmd );
-        var list = DataService.getCommands();
-        expect(list).toEqual([cmd]);
+        expect(DataService.addCommand( cmd )).toEqual([cmd]);
       });
       it('adds a list', function () {
         var c1 = { name: '1' };
         var c2 = { name: '2' };
-        DataService.addCommand([c1, c2]);
-        var list = DataService.getCommands();
-        expect(list).toEqual([c1, c2]);
+        expect(DataService.addCommand([c1, c2])).toEqual([c1, c2]);
       });
       it('adds a list with concat', function () {
         var c1 = { name: '1' };
         var c2 = { name: '2' };
         DataService.addCommand([c1]);
-        DataService.addCommand([c2]);
-        var list = DataService.getCommands();
-        expect(list).toEqual([c1, c2]);
+        expect(DataService.addCommand([c2])).toEqual([c1, c2]);
       });
       it('adds a list with with uniques', function () {
         var c1 = { name: '1' };
         var c2 = { name: '2' };
         DataService.addCommand([c1]);
-        DataService.addCommand([c1, c2]);
-        var list = DataService.getCommands();
-        expect(list).toEqual([c1, c2]);
+        expect(DataService.addCommand([c1, c2])).toEqual([c1, c2]);
       });
       it('adds a list with without duplicates', function () {
         var c1 = { name: '1' };
-        DataService.addCommand([c1, c1]);
-        var list = DataService.getCommands();
-        expect(list).toEqual([c1]);
+        expect(DataService.addCommand([c1, c1])).toEqual([c1]);
+      });
+      it('does not add undefined values', function () {
+        expect(DataService.addCommand(undefined)).toEqual([]);
+      });
+
+      it('removes returns commands', function () {
+        var c1 = { name: '1' };
+        var c2 = { name: '2' };
+        DataService.addCommand([c1, c2]);
+        expect(DataService.removeCommand(c1)).toEqual([c2]);
+      });
+      it('removes', function () {
+        var c1 = { name: '1' };
+        var c2 = { name: '2' };
+        DataService.addCommand([c1, c2]);
+        expect(DataService.removeCommand(c1)).toEqual([c2]);
+      });
+      it('remove ignores undefined', function () {
+        expect(DataService.removeCommand(undefined)).toEqual([]);
+      });
+      it('remove ignores non existent', function () {
+        var c1 = { name: '1' };
+        expect(DataService.removeCommand(c1)).toEqual([]);
       });
 
     });
