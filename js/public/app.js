@@ -32,11 +32,9 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
     $scope.all = [];
     $scope.filtered = [];
     $scope.filter = "";
+    $scope.selected;
 
-    $scope.$watch("filter", function(newVal, oldval) {
-        if (newVal === oldval) {
-            //do nothing
-        }
+    $scope.$watch("filter", function() {
         $scope.filtered = _.filter($scope.all, function(item) {
             var filterItems = $scope.filter.split(' ');
             var match = _.find(filterItems, function(f){
@@ -47,6 +45,16 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
         });
     });
 
+    $scope.add = function(item) {
+        $scope.all = DataService.addCommand(item);
+    };
+    $scope.remove = function(item) {
+        $scope.all = DataService.removeCommand(item);
+    };
+    $scope.select = function(item){
+        $scope.selected = item;
+    };
+
     var init = function() {
         $scope.all = DataService.getCommands();
         $scope.filtered = $scope.all;
@@ -54,5 +62,4 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
     $scope.init = function() {
         init();
     };
-
 }]);

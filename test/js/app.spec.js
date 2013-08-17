@@ -108,6 +108,8 @@ describe("app: ", function() {
         var $scope;
         var $controller;
         var $ctrl;
+        var dataService;
+
 
         var createCmd = function(name, desc) {
             return { name: name, description: desc };
@@ -123,7 +125,7 @@ describe("app: ", function() {
             module('controllers');
             inject(function(_$rootScope_, $controller, _DataService_) {
                 $scope = _$rootScope_.$new();
-                var dataService = _DataService_;
+                dataService = _DataService_;
 
                 $ctrl = $controller('CommandCtrl', {
                     $scope:$scope,
@@ -131,7 +133,6 @@ describe("app: ", function() {
                 });
 
                 spyOn(dataService, 'getCommands').andReturn(testCmds());
-
             });
         });
 
@@ -189,5 +190,39 @@ describe("app: ", function() {
                                              createCmd("ABCABC", "EEEEEE description")]);
         });
 
+        it('has a selected item', function(){
+            $scope.init();
+            expect($scope.selected).toBeUndefined(null);
+        });
+        it('can select', function(){
+            $scope.init();
+            $scope.select(createCmd("AAAAAA", "AAAAAA description"));
+            expect($scope.selected).toEqual(createCmd("AAAAAA", "AAAAAA description"));
+        });
+        it('can un-select', function(){
+            $scope.init();
+            $scope.selected = createCmd("AAAAAA", "AAAAAA description");
+            $scope.select();
+            expect($scope.selected).toBeUndefined();
+        });
+
+        it('can add', function(){
+            $scope.init();
+            var c = createCmd("AAAAAA", "AAAAAA description");
+            var spyResp = _.union($scope.all, c);
+
+            spyOn(dataService, 'addCommand').andReturn(spyResp);
+            $scope.add(createCmd("AAAAAA", "AAAAAA description"));
+            expect($scope.all).toEqual(spyResp);
+        });
+        it('can remove', function(){
+            $scope.init();
+            var c = createCmd("AAAAAA", "AAAAAA description");
+            var spyResp = _.without($scope.all, c);
+
+            spyOn(dataService, 'removeCommand').andReturn(spyResp);
+            $scope.remove(createCmd("AAAAAA", "AAAAAA description"));
+            expect($scope.all).toEqual(spyResp);
+        });
     }); // command controller
 });// describe app
