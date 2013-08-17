@@ -23,3 +23,7 @@ angular.module('services').factory('DataService', ['$rootScope', function($rootS
 
   return service;
 }]); //  services.command
+
+angular.module('controllers', ['services']);
+angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService', function($scope, DataService) {
+}]);

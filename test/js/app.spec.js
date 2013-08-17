@@ -101,4 +101,36 @@ describe("app: ", function() {
     });
 
   }); // dal
+
+
+  describe('CommandController: ', function () {
+    var $scope;
+    var $controller;
+    var $ctrl;
+
+    beforeEach(function() {
+      module('controllers');
+      inject(function(_$rootScope_ ) {
+        $scope = _$rootScope_.$new();
+      });
+    });
+    var setupScope = function() {
+      inject(function($controller) {
+        $ctrl = $controller('CommandCtrl', {$scope:$scope});
+      });
+    }
+
+    describe("test setup: ", function() {
+      beforeEach( function() {
+        setupScope();
+      });
+      it('injects $scope', function () {
+        expect($scope).toBeDefined();
+      });
+      it('injects DataService', function () {
+        expect($ctrl).toBeDefined();
+      });
+    }); // test setup
+
+  }); // command controller
 });// describe app
