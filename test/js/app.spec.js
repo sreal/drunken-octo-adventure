@@ -117,7 +117,7 @@ describe("app: ", function() {
             return [ createCmd("AAAAAA", "AAAAAA description", "111"),
                      createCmd("BBBBBB", "BBBBBB description", "222"),
                      createCmd("CCCCCC", "CCCCCC description", "222"),
-                     createCmd("ABCABC", "EEEEEE description", "444"), ]
+                     createCmd("ABCABC", "EEEEEE description", "GGG"), ]
         };
 
         beforeEach(function() {
@@ -180,15 +180,22 @@ describe("app: ", function() {
                 $scope.init();
                 $scope.filter = "EEEEEE";
                 $scope.$apply();
-                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description", "444")]);
+                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description", "GGG")]);
             });
             it('has a filter that filters on nameor description', function(){
                 $scope.init();
                 $scope.filter = "AAAAAA EEEEEE";
                 $scope.$apply();
                 expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111"),
-                                                 createCmd("ABCABC", "EEEEEE description", "444")]);
+                                                 createCmd("ABCABC", "EEEEEE description", "GGG")]);
             });
+            it('has a filter that filters on name or description and is case insensitive', function(){
+                $scope.init();
+                $scope.filter = "abcabc";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description", "GGG")]);
+            });
+
             it('has a filter for api that start empty', function(){
                 $scope.init();
                 expect($scope.apiFilter).toEqual("");
@@ -199,7 +206,6 @@ describe("app: ", function() {
                 $scope.$apply();
                 expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111")]);
             });
-
             it('has a filter for api that filters on api and basic', function(){
                 $scope.init();
                 $scope.apiFilter = "222";
@@ -207,7 +213,19 @@ describe("app: ", function() {
                 $scope.$apply();
                 expect($scope.filtered).toEqual([createCmd("BBBBBB", "BBBBBB description", "222")]);
             });
-
+            it('has a filter for api the filters that is case insensitive', function(){
+                $scope.init();
+                $scope.apiFilter = "ggg";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description", "GGG")]);
+            });
+            it('has a filter for that shows all when cleared', function(){
+                $scope.init();
+                $scope.apiFilter = "";
+                $scope.filter = "";
+                $scope.$apply();
+                expect($scope.filtered).toEqual( testCmds() );
+            });
         });
 
         it('has a selected item', function(){

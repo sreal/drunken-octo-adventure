@@ -39,31 +39,28 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
     $scope.apiFilter = "";
     $scope.selected;
 
+    var nameFiltered = [];
     $scope.$watch("filter", function() {
-        filterList();
-    });
-    var filterList = function() {
-        var filtered = _.filter($scope.all, function(item) {
+        nameFiltered = _.filter($scope.all, function(item) {
             var filterItems = $scope.filter.split(' ');
             var match = _.find(filterItems, function(f){
-                return -1 !== item.api.indexOf(f) ||
-                       -1 !== item.name.indexOf(f) ||
-                       -1 !== item.description.indexOf(f) ;
+                return -1 !== item.name.toLowerCase().indexOf(f.toLowerCase()) ||
+                       -1 !== item.description.toLowerCase().indexOf(f.toLowerCase()) ;
             });
             return !_.isUndefined(match);
         });
-        $scope.filtered = _.intersection($scope.filtered, filtered);
-    }
-
+        $scope.filtered = _.intersection(apiFiltered, nameFiltered);
+    });
+    var apiFiltered = [];
     $scope.$watch("apiFilter", function() {
-        var filtered = _.filter($scope.all, function(item) {
+        apiFiltered = _.filter($scope.all, function(item) {
             var filterItems = $scope.apiFilter.split(' ');
             var match = _.find(filterItems, function(f){
-                return -1 !== item.api.indexOf(f);
+                return -1 !== item.api.toLowerCase().indexOf(f.toLowerCase());
             });
             return !_.isUndefined(match);
         });
-        $scope.filtered = _.intersection($scope.filtered, filtered);
+        $scope.filtered = _.intersection(apiFiltered, nameFiltered);
     });
 
 

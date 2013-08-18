@@ -1,17 +1,19 @@
 <div>
   <h1>shortcuts</h1>
 
-  <div class="row">
-    <div class="span12" >
-      <input type="text" class="input-large span12" ng-model="filter" />
-    </div>
-  </div>
+  <!-- <div class="row"> -->
+  <!--   <div class="span12" > -->
+  <!--     <input type="text" class="input-large span12" ng-model="filter" /> -->
+  <!--   </div> -->
+  <!-- </div> -->
   <div class="row-fluid">
     <div class="span6" >
       <table class="table table-condensed table-striped">
         <tr>
-          <th class="span3">api</th>
-          <th class="span3">
+          <th class="span2">
+            <input placeholder="api" style="width:80%" ng-model="apiFilter" />
+          </th>
+          <th class="span4">
             <input placeholder="command" style="width:80%" ng-model="filter" />
           </th>
         </tr>
