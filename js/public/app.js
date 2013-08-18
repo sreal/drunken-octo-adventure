@@ -36,22 +36,39 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
     $scope.all = [];
     $scope.filtered = [];
     $scope.filter = "";
+    $scope.apiFilter = "";
     $scope.selected;
 
     $scope.$watch("filter", function() {
-        $scope.filtered = _.filter($scope.all, function(item) {
+        filterList();
+    });
+    var filterList = function() {
+        var filtered = _.filter($scope.all, function(item) {
             var filterItems = $scope.filter.split(' ');
             var match = _.find(filterItems, function(f){
                 return -1 !== item.api.indexOf(f) ||
                        -1 !== item.name.indexOf(f) ||
-                       -1 !== item.description.indexOf(f);
+                       -1 !== item.description.indexOf(f) ;
             });
             return !_.isUndefined(match);
         });
+        $scope.filtered = _.intersection($scope.filtered, filtered);
+    }
+
+    $scope.$watch("apiFilter", function() {
+        var filtered = _.filter($scope.all, function(item) {
+            var filterItems = $scope.apiFilter.split(' ');
+            var match = _.find(filterItems, function(f){
+                return -1 !== item.api.indexOf(f);
+            });
+            return !_.isUndefined(match);
+        });
+        $scope.filtered = _.intersection($scope.filtered, filtered);
     });
 
+
+
     $scope.add = function(item) {
-        console.log(item);
         $scope.all = DataService.addCommand(item);
         $scope.cmd = undefined;
     };

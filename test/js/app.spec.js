@@ -110,14 +110,14 @@ describe("app: ", function() {
         var $ctrl;
         var dataService;
 
-        var createCmd = function(name, desc) {
-            return { name: name, description: desc };
+        var createCmd = function(name, desc, api) {
+            return { name: name, description: desc, api:api };
         }
         var testCmds = function() {
-            return [ createCmd("AAAAAA", "AAAAAA description"),
-                     createCmd("BBBBBB", "BBBBBB description"),
-                     createCmd("CCCCCC", "CCCCCC description"),
-                     createCmd("ABCABC", "EEEEEE description"), ]
+            return [ createCmd("AAAAAA", "AAAAAA description", "111"),
+                     createCmd("BBBBBB", "BBBBBB description", "222"),
+                     createCmd("CCCCCC", "CCCCCC description", "222"),
+                     createCmd("ABCABC", "EEEEEE description", "444"), ]
         };
 
         beforeEach(function() {
@@ -148,8 +148,7 @@ describe("app: ", function() {
             $scope.init();
             expect($scope.all).toEqual(testCmds());
         });
-        describe('Fliters: ', function(){
-
+        describe('Filters: ', function(){
             it('has a list of filtered commands', function(){
                 $scope.init();
                 expect($scope.filtered).toEqual(testCmds());
@@ -162,34 +161,53 @@ describe("app: ", function() {
                 $scope.init();
                 $scope.filter = "AAAAAA";
                 $scope.$apply();
-                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description")]);
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111")]);
             });
             it('has a filter that filters on partial name', function(){
                 $scope.init();
                 $scope.filter = "AAAAA";
                 $scope.$apply();
-                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description")]);
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111")]);
             });
             it('has a filter that filters on any value in name', function(){
                 $scope.init();
                 $scope.filter = "AAAAAA BBBBBB";
                 $scope.$apply();
-                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description"),
-                                                 createCmd("BBBBBB", "BBBBBB description")]);
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111"),
+                                                 createCmd("BBBBBB", "BBBBBB description", "222")]);
             });
             it('has a filter that filters on description', function(){
                 $scope.init();
                 $scope.filter = "EEEEEE";
                 $scope.$apply();
-                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description")]);
+                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description", "444")]);
             });
             it('has a filter that filters on nameor description', function(){
                 $scope.init();
                 $scope.filter = "AAAAAA EEEEEE";
                 $scope.$apply();
-                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description"),
-                                                 createCmd("ABCABC", "EEEEEE description")]);
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111"),
+                                                 createCmd("ABCABC", "EEEEEE description", "444")]);
             });
+            it('has a filter for api that start empty', function(){
+                $scope.init();
+                expect($scope.apiFilter).toEqual("");
+            });
+            it('has a filter for api that filters on api', function(){
+                $scope.init();
+                $scope.apiFilter = "111";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111")]);
+            });
+
+            it('has a filter for api that filters on api and basic', function(){
+                $scope.init();
+                $scope.apiFilter = "222";
+                $scope.filter = "BBBBBB";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("BBBBBB", "BBBBBB description", "222")]);
+            });
+
         });
 
         it('has a selected item', function(){
@@ -198,26 +216,26 @@ describe("app: ", function() {
         });
         it('can select', function(){
             $scope.init();
-            $scope.select(createCmd("AAAAAA", "AAAAAA description"));
-            expect($scope.selected).toEqual(createCmd("AAAAAA", "AAAAAA description"));
+            $scope.select(createCmd("AAAAAA", "AAAAAA description", "111"));
+            expect($scope.selected).toEqual(createCmd("AAAAAA", "AAAAAA description", "111"));
         });
         it('can un-select', function(){
             $scope.init();
-            $scope.selected = createCmd("AAAAAA", "AAAAAA description");
+            $scope.selected = createCmd("AAAAAA", "AAAAAA description", "111");
             $scope.select();
             expect($scope.selected).toBeUndefined();
         });
         it('can un-select if already selected', function(){
             $scope.init();
-            var select = createCmd("AAAAAA", "AAAAAA description");
+            var select = createCmd("AAAAAA", "AAAAAA description", "111");
             $scope.selected = select;
             $scope.select(select);
             expect($scope.selected).toBeUndefined();
         });
         it('can test isSelected', function(){
             $scope.init();
-            var select = createCmd("AAAAAA", "AAAAAA description");
-            var notselect = createCmd("BBBBBB", "BBBBBB description");
+            var select = createCmd("AAAAAA", "AAAAAA description", "111");
+            var notselect = createCmd("BBBBBB", "BBBBBB description", "222");
             $scope.selected = select;
 
             var selected = $scope.isSelected(select);
@@ -228,20 +246,20 @@ describe("app: ", function() {
 
         it('can add', function(){
             $scope.init();
-            var c = createCmd("AAAAAA", "AAAAAA description");
+            var c = createCmd("AAAAAA", "AAAAAA description", "111");
             var spyResp = _.union($scope.all, c);
 
             spyOn(dataService, 'addCommand').andReturn(spyResp);
-            $scope.add(createCmd("AAAAAA", "AAAAAA description"));
+            $scope.add(createCmd("AAAAAA", "AAAAAA description", "111"));
             expect($scope.all).toEqual(spyResp);
         });
         it('can remove', function(){
             $scope.init();
-            var c = createCmd("AAAAAA", "AAAAAA description");
+            var c = createCmd("AAAAAA", "AAAAAA description", "111");
             var spyResp = _.without($scope.all, c);
 
             spyOn(dataService, 'removeCommand').andReturn(spyResp);
-            $scope.remove(createCmd("AAAAAA", "AAAAAA description"));
+            $scope.remove(createCmd("AAAAAA", "AAAAAA description", "111"));
             expect($scope.all).toEqual(spyResp);
         });
     }); // command controller
