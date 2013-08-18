@@ -148,45 +148,48 @@ describe("app: ", function() {
             $scope.init();
             expect($scope.all).toEqual(testCmds());
         });
-        it('has a list of filtered commands', function(){
-            $scope.init();
-            expect($scope.filtered).toEqual(testCmds());
-        });
-        it('has a filter that start empty', function(){
-            $scope.init();
-            expect($scope.filter).toBe("");
-        });
-        it('has a filter that filters on exact name', function(){
-            $scope.init();
-            $scope.filter = "AAAAAA";
-            $scope.$apply();
-            expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description")]);
-        });
-        it('has a filter that filters on partial name', function(){
-            $scope.init();
-            $scope.filter = "AAAAA";
-            $scope.$apply();
-            expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description")]);
-        });
-        it('has a filter that filters on any value in name', function(){
-            $scope.init();
-            $scope.filter = "AAAAAA BBBBBB";
-            $scope.$apply();
-            expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description"),
-                                             createCmd("BBBBBB", "BBBBBB description")]);
-        });
-        it('has a filter that filters on description', function(){
-            $scope.init();
-            $scope.filter = "EEEEEE";
-            $scope.$apply();
-            expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description")]);
-        });
-        it('has a filter that filters on nameor description', function(){
-            $scope.init();
-            $scope.filter = "AAAAAA EEEEEE";
-            $scope.$apply();
-            expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description"),
-                                             createCmd("ABCABC", "EEEEEE description")]);
+        describe('Fliters: ', function(){
+
+            it('has a list of filtered commands', function(){
+                $scope.init();
+                expect($scope.filtered).toEqual(testCmds());
+            });
+            it('has a filter that start empty', function(){
+                $scope.init();
+                expect($scope.filter).toBe("");
+            });
+            it('has a filter that filters on exact name', function(){
+                $scope.init();
+                $scope.filter = "AAAAAA";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description")]);
+            });
+            it('has a filter that filters on partial name', function(){
+                $scope.init();
+                $scope.filter = "AAAAA";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description")]);
+            });
+            it('has a filter that filters on any value in name', function(){
+                $scope.init();
+                $scope.filter = "AAAAAA BBBBBB";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description"),
+                                                 createCmd("BBBBBB", "BBBBBB description")]);
+            });
+            it('has a filter that filters on description', function(){
+                $scope.init();
+                $scope.filter = "EEEEEE";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("ABCABC", "EEEEEE description")]);
+            });
+            it('has a filter that filters on nameor description', function(){
+                $scope.init();
+                $scope.filter = "AAAAAA EEEEEE";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description"),
+                                                 createCmd("ABCABC", "EEEEEE description")]);
+            });
         });
 
         it('has a selected item', function(){

@@ -1,0 +1,35 @@
+htmlItems = $('#documentation').find('p code').parent();
+items = _.map( htmlItems , function(i) {
+
+	var getText = function(item) {
+		found = false;
+		for (var i = 0; i < item.childNodes.length; i ++ ) {
+			var node = item.childNodes[i];
+			if ( !found && node.nodeName == "BR" ) {
+				found = true;
+			}
+			if (!found) {
+				node.remove();
+			} 
+		}
+		item.childNodes[0].remove();
+		item.childNodes[0].remove();
+		item.childNodes[0].remove();
+		item.childNodes[0].remove();
+		return item.innerText;
+	}
+	var id = i.id;
+	var example = $(i).find('code').text();
+	var version = $('.version').text();
+	var description = getText(i);
+	
+	return {
+		api: "underscore.js",
+		version: version,
+		name: id,
+		example: example,
+		description: description
+	};
+});
+
+json = JSON.stringify(items);

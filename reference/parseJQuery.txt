@@ -1,0 +1,24 @@
+htmlItems = $('article');
+i = htmlItems[0];
+
+items = _.map( htmlItems , function(i) {
+	var api = $('.page-title').text().replace(" API", "");
+	var id = $(i).find('.entry-header .entry-title').text().trim();
+	var example = $(i).find('.entry-header .entry-title a').text();
+	var version = "1.9.1";
+	var description = $(i).find('.entry-summary').text().trim();
+	var href = $(i).find('.entry-header .entry-title a').attr('href');
+	var tags = _.map($(i).find('.category a'), function(tag){ return tag.innerText});
+	
+	return {
+		api: api,
+		version: version,
+		name: id,
+		example: example,
+		description: description,
+		href: href,
+		tags: tags
+	};	
+});
+
+JSON.stringify(items);

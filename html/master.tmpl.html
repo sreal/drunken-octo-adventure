@@ -1,15 +1,25 @@
 <div>
   <h1>shortcuts</h1>
 
-  <div class="row-fluid">
-
-    <div ng-class="{'span6': !!selected, 'span12': !selected}" >
+  <div class="row">
+    <div class="span12" >
       <input type="text" class="input-large span12" ng-model="filter" />
-      <div ng-repeat="c in filtered" ng-click="select(c)" ng-class="{'info': isSelected(c)}">
-        <div class="well well-small">
-          <label class="label pull-right">{{ c.api }}</label> {{c.name}}
-        </div>
-      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span6" >
+      <table class="table table-condensed table-striped">
+        <tr>
+          <th class="span3">api</th>
+          <th class="span3">
+            <input placeholder="command" style="width:80%" ng-model="filter" />
+          </th>
+        </tr>
+        <tr ng-repeat="c in filtered" ng-click="select(c)" ng-class="{'info': isSelected(c)}">
+          <td>{{c.api}}</td>
+          <td>{{c.name}}</td>
+        </tr>
+      </table>
     </div>
 
 
@@ -17,14 +27,17 @@
       <div>
         <label class="label pull-right">{{selected.api}}</label>
         <fieldset>
-          <legend> {{selected.name }}  </legend>
+          <legend ng-hide="selected.href"> {{selected.name }} </legend>
+          <legend ng-show="selected.href">
+            <a href="{{ selected.href }}"> {{selected.name }} </a>
+          </legend>
           <dl>
             <dt ng-show="selected.shortcut">shortcut</dt>
-            <dd>{{ selected.shortcut }}</dd>
+            <dd ng-show="selected.shortcut">{{ selected.shortcut }}</dd>
             <dt ng-show="selected.description">description</dt>
-            <dd>{{ selected.description }}</dd>
+            <dd ng-show="selected.description">{{ selected.description }}</dd>
             <dt ng-show="selected.example">example</dt>
-            <dd>
+            <dd ng-show="selected.example">
               <pre>
                 <code class="pull-left">{{ selected.example }}</code>
               </pre>
