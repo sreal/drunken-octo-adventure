@@ -1,0 +1,84 @@
+<div>
+  <h1>shortcuts</h1>
+
+  <div class="row-fluid">
+
+    <div ng-class="{'span6': !!selected, 'span12': !selected}" >
+      <input type="text" class="input-large span12" ng-model="filter" />
+      <div ng-repeat="c in filtered" ng-click="select(c)" ng-class="{'info': isSelected(c)}">
+        <div class="well well-small">
+          <label class="label pull-right">{{ c.api }}</label> {{c.name}}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="span6" ng-show="selected" >
+      <div>
+        <label class="label pull-right">{{selected.api}}</label>
+        <fieldset>
+          <legend> {{selected.name }}  </legend>
+          <dl>
+            <dt ng-show="selected.shortcut">shortcut</dt>
+            <dd>{{ selected.shortcut }}</dd>
+            <dt ng-show="selected.description">description</dt>
+            <dd>{{ selected.description }}</dd>
+            <dt ng-show="selected.example">example</dt>
+            <dd>
+              <pre>
+                <code class="pull-left">{{ selected.example }}</code>
+              </pre>
+            </dd>
+          </dl>
+        </fieldset>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div ng-hide="true">
+    <div class="span1">api:</div>
+    <div class="span1"><input name="api" ng-model="cmd.api" /> </div>
+    <div class="span1">name:</div>
+    <div class="span1"><input name="name" ng-model="cmd.name" /> </div>
+    <div class="span1">description:</div>
+    <div class="span1"><input ng-model="cmd.description" /> </div>
+    <div class="span1">shortcut:</div>
+    <div class="span1"><input ng-model="cmd.shortcut" /> </div>
+    <div class="span1">example:</div>
+    <div class="span1"><input ng-model="cmd.example" /> </div>
+    <button class="btn" ng-click="add(cmd)"  >add</button>
+  </div>
+
+
+  <hr>
+  <button class="btn" ng-click="debug=!debug;">debug</button>
+  <div ng-show="debug">
+    <div class="row-fluid">
+      <div class="span6">
+        <h4>all</h4>
+        <div class="well"> {{all}}</div>
+      </div>
+      <div class="span6">
+        <h4>filtered</h4>
+        <div class="well">{{filtered}}</div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span6">
+        <h4>filter</h4>
+        <div class="well">{{filter}}</div>
+      </div>
+      <div class="span6">
+        <h4>cmd</h4>
+        <div class="well">{{cmd}}</div>
+      </div>
+      <div class="span6">
+        <h4>selected</h4>
+        <div class="well">{{selected}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

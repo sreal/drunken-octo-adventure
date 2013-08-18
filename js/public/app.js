@@ -1,10 +1,14 @@
 'use strict()'
 
+var data = data || {};
 angular.module('services', []);
 angular.module('services').factory('DataService', ['$rootScope', function($rootScope) {
     var commands = [];
     var service = {};
     service.init = function() {
+        if ( !_.isUndefined(data.APIC) && commands.length < 1) {
+            commands = data.APIC;
+        }
     };
 
     service.getCommands = function() {
@@ -38,7 +42,8 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
         $scope.filtered = _.filter($scope.all, function(item) {
             var filterItems = $scope.filter.split(' ');
             var match = _.find(filterItems, function(f){
-                return -1 !== item.name.indexOf(f) ||
+                return -1 !== item.api.indexOf(f) ||
+                       -1 !== item.name.indexOf(f) ||
                        -1 !== item.description.indexOf(f);
             });
             return !_.isUndefined(match);
@@ -46,13 +51,22 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
     });
 
     $scope.add = function(item) {
+        console.log(item);
         $scope.all = DataService.addCommand(item);
+        $scope.cmd = undefined;
     };
     $scope.remove = function(item) {
         $scope.all = DataService.removeCommand(item);
     };
     $scope.select = function(item){
-        $scope.selected = item;
+        if ( $scope.selected == item ) {
+            $scope.selected = undefined;
+        } else {
+            $scope.selected = item;
+        }
+    };
+    $scope.isSelected = function(item){
+        return item == $scope.selected;
     };
 
     var init = function() {
@@ -60,6 +74,21 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
         $scope.filtered = $scope.all;
     }
     $scope.init = function() {
-        init();
+        $scope.all = DataService.getCommands();
+        $scope.filtered = $scope.all;
     };
+    $scope.init();
 }]);
+
+
+var APIC = angular.module('APIC', ['controllers', 'services'])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'html/master.tmpl.html',
+                controller: 'CommandCtrl'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    }]);

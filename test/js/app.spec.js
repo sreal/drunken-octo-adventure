@@ -104,12 +104,11 @@ describe("app: ", function() {
     }); // dal
 
 
-    ddescribe('CommandController: ', function () {
+    describe('CommandController: ', function () {
         var $scope;
         var $controller;
         var $ctrl;
         var dataService;
-
 
         var createCmd = function(name, desc) {
             return { name: name, description: desc };
@@ -204,6 +203,24 @@ describe("app: ", function() {
             $scope.selected = createCmd("AAAAAA", "AAAAAA description");
             $scope.select();
             expect($scope.selected).toBeUndefined();
+        });
+        it('can un-select if already selected', function(){
+            $scope.init();
+            var select = createCmd("AAAAAA", "AAAAAA description");
+            $scope.selected = select;
+            $scope.select(select);
+            expect($scope.selected).toBeUndefined();
+        });
+        it('can test isSelected', function(){
+            $scope.init();
+            var select = createCmd("AAAAAA", "AAAAAA description");
+            var notselect = createCmd("BBBBBB", "BBBBBB description");
+            $scope.selected = select;
+
+            var selected = $scope.isSelected(select);
+            expect(selected).toBe(true);
+            var notSelected = $scope.isSelected(notSelected);
+            expect(notSelected).toBe(false);
         });
 
         it('can add', function(){
