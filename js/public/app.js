@@ -33,6 +33,46 @@ angular.module('services').factory('DataService', ['$rootScope', function($rootS
 
 angular.module('controllers', ['services']);
 angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService', function($scope, DataService) {
+
+    $scope.mousetrap = {
+        search: function(){
+//            element.find("#nameFilter").focus();
+        },
+        next: function() {
+            if ( ! $scope.selected ) {
+                $scope.select( _.first($scope.filtered) );
+            } else {
+                var pos = _.indexOf( _.pluck($scope.filtered, 'name'), $scope.selected.name);
+                if (pos !== -1) {
+                    $scope.select( $scope.filtered[pos+1] );
+                }
+            }
+            console.log( $scope.selected );
+            $scope.$digest();
+
+        },
+        prev: function() {
+            if ( ! $scope.selected ) {
+                $scope.select( _.first($scope.filtered) );
+            } else {
+                var pos = _.indexOf( _.pluck($scope.filtered, 'name'), $scope.selected.name);
+                console.log( $scope.selected );
+                if (pos !== -1) {
+                    $scope.select( $scope.filtered[pos-1] );
+                }
+            }
+            console.log( $scope.selected );
+            $scope.$digest();
+        },
+    };
+
+    var bindMousetrap = function(){
+        Mousetrap.bind(['g s'], function(e) { $scope.mousetrap.search(); });
+        Mousetrap.bind(['n'], function(e) { $scope.mousetrap.next();   });
+        Mousetrap.bind(['p'], function(e) { $scope.mousetrap.prev();   });
+    };
+    bindMousetrap();
+
     $scope.filterLimit = 50;
     $scope.filterIsLimited = true;
     $scope.all = [];
@@ -51,7 +91,7 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
             var filterItems = $scope.filter.split(' ');
             var match = _.find(filterItems, function(f){
                 return -1 !== item.name.toLowerCase().indexOf(f.toLowerCase()) ||
-                       -1 !== item.description.toLowerCase().indexOf(f.toLowerCase()) ;
+                    -1 !== item.description.toLowerCase().indexOf(f.toLowerCase()) ;
             });
             return !_.isUndefined(match);
         });
@@ -97,6 +137,7 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
         } else {
             $scope.selected = item;
         }
+//        $scope.$apply();
     };
     $scope.isSelected = function(item){
         return item == $scope.selected;

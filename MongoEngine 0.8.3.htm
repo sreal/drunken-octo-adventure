@@ -1,0 +1,1683 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>3. API Reference &mdash; MongoEngine 0.8.3 documentation</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "latest";
+  var doc_slug = "mongoengine-odm";
+  var page_name = "apireference";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <link rel="top" title="MongoEngine 0.8.3 documentation" href="index.html" />
+    <link rel="next" title="4. Changelog" href="changelog.html" />
+    <link rel="prev" title="2.7. Signals" href="guide/signals.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="changelog.html" title="4. Changelog"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="guide/signals.html" title="2.7. Signals"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">MongoEngine 0.8.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api-reference">
+<h1>3. API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="connecting">
+<h2>3.1. Connecting<a class="headerlink" href="#connecting" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="mongoengine.connect">
+<tt class="descclassname">mongoengine.</tt><tt class="descname">connect</tt><big>(</big><em>db</em>, <em>alias='default'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to the database specified by the &#8216;db&#8217; argument.</p>
+<p>Connection settings may be provided here as well if the database is not
+running on the default port on localhost. If authentication is needed,
+provide username and password arguments as well.</p>
+<p>Multiple databases are supported by using aliases.  Provide a separate
+<cite>alias</cite> to connect to a different instance of <strong class="program">mongod</strong>.</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6: </span>- added multiple database support.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mongoengine.register_connection">
+<tt class="descclassname">mongoengine.</tt><tt class="descname">register_connection</tt><big>(</big><em>alias</em>, <em>name</em>, <em>host='localhost'</em>, <em>port=27017</em>, <em>is_slave=False</em>, <em>read_preference=False</em>, <em>slaves=None</em>, <em>username=None</em>, <em>password=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.register_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a connection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>alias</strong> &#8211; the name that will be used to refer to this connection
+throughout MongoEngine</li>
+<li><strong>name</strong> &#8211; the name of the specific database to use</li>
+<li><strong>host</strong> &#8211; the host name of the <strong class="program">mongod</strong> instance to connect to</li>
+<li><strong>port</strong> &#8211; the port that the <strong class="program">mongod</strong> instance is running on</li>
+<li><strong>is_slave</strong> &#8211; whether the connection can act as a slave
+** Depreciated pymongo 2.0.1+</li>
+<li><strong>read_preference</strong> &#8211; The read preference for the collection
+** Added pymongo 2.1</li>
+<li><strong>slaves</strong> &#8211; a list of aliases of slave connections; each of these must
+be a registered connection that has <tt class="xref py py-attr docutils literal"><span class="pre">is_slave</span></tt> set to <tt class="docutils literal"><span class="pre">True</span></tt></li>
+<li><strong>username</strong> &#8211; username to authenticate with</li>
+<li><strong>password</strong> &#8211; password to authenticate with</li>
+<li><strong>kwargs</strong> &#8211; allow ad-hoc parameters to be passed into the pymongo driver</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="documents">
+<h2>3.2. Documents<a class="headerlink" href="#documents" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mongoengine.Document">
+<em class="property">class </em><tt class="descclassname">mongoengine.</tt><tt class="descname">Document</tt><big>(</big><em>*args</em>, <em>**values</em><big>)</big><a class="headerlink" href="#mongoengine.Document" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base class used for defining the structure and properties of
+collections of documents stored in MongoDB. Inherit from this class, and
+add fields as class attributes to define a document&#8217;s structure.
+Individual documents may then be created by making instances of the
+<a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> subclass.</p>
+<p>By default, the MongoDB collection used to store documents created using a
+<a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> subclass will be the name of the subclass
+converted to lowercase. A different collection may be specified by
+providing <tt class="xref py py-attr docutils literal"><span class="pre">collection</span></tt> to the <tt class="xref py py-attr docutils literal"><span class="pre">meta</span></tt> dictionary in the class
+definition.</p>
+<p>A <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> subclass may be itself subclassed, to
+create a specialised version of the document that will be stored in the
+same collection. To facilitate this behaviour a <cite>_cls</cite>
+field is added to documents (hidden though the MongoEngine interface).
+To disable this behaviour and remove the dependence on the presence of
+<cite>_cls</cite> set <tt class="xref py py-attr docutils literal"><span class="pre">allow_inheritance</span></tt> to <tt class="docutils literal"><span class="pre">False</span></tt> in the <tt class="xref py py-attr docutils literal"><span class="pre">meta</span></tt>
+dictionary.</p>
+<p>A <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> may use a <strong>Capped Collection</strong> by
+specifying <tt class="xref py py-attr docutils literal"><span class="pre">max_documents</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">max_size</span></tt> in the <tt class="xref py py-attr docutils literal"><span class="pre">meta</span></tt>
+dictionary. <tt class="xref py py-attr docutils literal"><span class="pre">max_documents</span></tt> is the maximum number of documents that
+is allowed to be stored in the collection, and <tt class="xref py py-attr docutils literal"><span class="pre">max_size</span></tt> is the
+maximum size of the collection in bytes. If <tt class="xref py py-attr docutils literal"><span class="pre">max_size</span></tt> is not
+specified and <tt class="xref py py-attr docutils literal"><span class="pre">max_documents</span></tt> is, <tt class="xref py py-attr docutils literal"><span class="pre">max_size</span></tt> defaults to
+10000000 bytes (10MB).</p>
+<p>Indexes may be created by specifying <tt class="xref py py-attr docutils literal"><span class="pre">indexes</span></tt> in the <tt class="xref py py-attr docutils literal"><span class="pre">meta</span></tt>
+dictionary. The value should be a list of field names or tuples of field
+names. Index direction may be specified by prefixing the field names with
+a <strong>+</strong> or <strong>-</strong> sign.</p>
+<p>Automatic index creation can be disabled by specifying
+attr:<cite>auto_create_index</cite> in the <tt class="xref py py-attr docutils literal"><span class="pre">meta</span></tt> dictionary. If this is set to
+False then indexes will not be created by MongoEngine.  This is useful in
+production systems where index creation is performed as part of a
+deployment system.</p>
+<p>By default, _cls will be added to the start of every index (that
+doesn&#8217;t contain a list) if allow_inheritance is True. This can be
+disabled by either setting cls to False on the specific index or
+by setting index_cls to False on the meta dictionary for the document.</p>
+<p>Initialise a document or embedded document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>__auto_convert</strong> &#8211; Try and will cast python objects to Object types</li>
+<li><strong>values</strong> &#8211; A dictionary of values for the document</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="Document.objects">
+<tt class="descname">objects</tt><a class="headerlink" href="#Document.objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a> object that is created lazily
+on access.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.cascade_save">
+<tt class="descname">cascade_save</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.Document.cascade_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively saves any references /
+generic references on an objects</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mongoengine.Document.compare_indexes">
+<em class="property">classmethod </em><tt class="descname">compare_indexes</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.Document.compare_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares the indexes defined in MongoEngine with the ones existing
+in the database. Returns any missing/extra indexes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.delete">
+<tt class="descname">delete</tt><big>(</big><em>**write_concern</em><big>)</big><a class="headerlink" href="#mongoengine.Document.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> from the database. This
+will only take effect if the document has been previously saved.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>write_concern</strong> &#8211; Extra keyword arguments are passed down which
+will be used as options for the resultant
+<tt class="docutils literal"><span class="pre">getLastError</span></tt> command.  For example,
+<tt class="docutils literal"><span class="pre">save(...,</span> <span class="pre">write_concern={w:</span> <span class="pre">2,</span> <span class="pre">fsync:</span> <span class="pre">True},</span> <span class="pre">...)</span></tt> will
+wait until at least two servers have recorded the write and
+will force an fsync on the primary server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mongoengine.Document.drop_collection">
+<em class="property">classmethod </em><tt class="descname">drop_collection</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.Document.drop_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drops the entire collection associated with this
+<a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> type from the database.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mongoengine.Document.ensure_index">
+<em class="property">classmethod </em><tt class="descname">ensure_index</tt><big>(</big><em>key_or_list</em>, <em>drop_dups=False</em>, <em>background=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.Document.ensure_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensure that the given indexes are in place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key_or_list</strong> &#8211; a single index key or a list of index keys (to
+construct a multi-field index); keys may be prefixed with a <strong>+</strong>
+or a <strong>-</strong> to determine the index ordering</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mongoengine.Document.ensure_indexes">
+<em class="property">classmethod </em><tt class="descname">ensure_indexes</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.Document.ensure_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the document meta data and ensures all the indexes exist.</p>
+<p>Global defaults can be set in the meta - see <a class="reference internal" href="guide/defining-documents.html"><em>Defining documents</em></a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can disable automatic index creation by setting
+<cite>auto_create_index</cite> to False in the documents meta data</p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mongoengine.Document.list_indexes">
+<em class="property">classmethod </em><tt class="descname">list_indexes</tt><big>(</big><em>go_up=True</em>, <em>go_down=True</em><big>)</big><a class="headerlink" href="#mongoengine.Document.list_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists all of the indexes that should be created for given
+collection. It includes all the indexes from super- and sub-classes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mongoengine.Document.my_metaclass">
+<tt class="descname">my_metaclass</tt><a class="headerlink" href="#mongoengine.Document.my_metaclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">TopLevelDocumentMetaclass</span></tt></p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mongoengine.Document.register_delete_rule">
+<em class="property">classmethod </em><tt class="descname">register_delete_rule</tt><big>(</big><em>document_cls</em>, <em>field_name</em>, <em>rule</em><big>)</big><a class="headerlink" href="#mongoengine.Document.register_delete_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method registers the delete rules to apply when removing this
+object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.reload">
+<tt class="descname">reload</tt><big>(</big><em>max_depth=1</em><big>)</big><a class="headerlink" href="#mongoengine.Document.reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reloads all attributes from the database.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.1.2.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6: </span>Now chainable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.save">
+<tt class="descname">save</tt><big>(</big><em>force_insert=False</em>, <em>validate=True</em>, <em>clean=True</em>, <em>write_concern=None</em>, <em>cascade=None</em>, <em>cascade_kwargs=None</em>, <em>_refs=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.Document.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> to the database. If the
+document already exists, it will be updated, otherwise it will be
+created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>force_insert</strong> &#8211; only try to create a new document, don&#8217;t allow
+updates of existing documents</li>
+<li><strong>validate</strong> &#8211; validates the document; set to <tt class="docutils literal"><span class="pre">False</span></tt> to skip.</li>
+<li><strong>clean</strong> &#8211; call the document clean method, requires <cite>validate</cite> to be
+True.</li>
+<li><strong>write_concern</strong> &#8211; Extra keyword arguments are passed down to
+<tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt> OR
+<tt class="xref py py-meth docutils literal"><span class="pre">insert()</span></tt>
+which will be used as options for the resultant
+<tt class="docutils literal"><span class="pre">getLastError</span></tt> command.  For example,
+<tt class="docutils literal"><span class="pre">save(...,</span> <span class="pre">write_concern={w:</span> <span class="pre">2,</span> <span class="pre">fsync:</span> <span class="pre">True},</span> <span class="pre">...)</span></tt> will
+wait until at least two servers have recorded the write and
+will force an fsync on the primary server.</li>
+<li><strong>cascade</strong> &#8211; Sets the flag for cascading saves.  You can set a
+default by setting &#8220;cascade&#8221; in the document __meta__</li>
+<li><strong>cascade_kwargs</strong> &#8211; (optional) kwargs dictionary to be passed throw
+to cascading saves.  Implies <tt class="docutils literal"><span class="pre">cascade=True</span></tt>.</li>
+<li><strong>_refs</strong> &#8211; A list of processed references used in cascading saves</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.5: </span>In existing documents it only saves changed fields using
+set / unset.  Saves are cascaded and any
+<tt class="xref py py-class docutils literal"><span class="pre">DBRef</span></tt> objects that have changes are
+saved as well.</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6: </span>Added cascading saves</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.8: </span>Cascade saves are optional and default to False.  If you want
+fine grain control then you can turn off using document
+meta[&#8216;cascade&#8217;] = True.  Also you can pass different kwargs to
+the cascade save using cascade_kwargs which overwrites the
+existing kwargs with custom values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.select_related">
+<tt class="descname">select_related</tt><big>(</big><em>max_depth=1</em><big>)</big><a class="headerlink" href="#mongoengine.Document.select_related" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles dereferencing of <tt class="xref py py-class docutils literal"><span class="pre">DBRef</span></tt> objects to
+a maximum depth in order to cut down the number queries to mongodb.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.5.</span></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.switch_collection">
+<tt class="descname">switch_collection</tt><big>(</big><em>collection_name</em><big>)</big><a class="headerlink" href="#mongoengine.Document.switch_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Temporarily switch the collection for a document instance.</p>
+<p>Only really useful for archiving off data and calling <cite>save()</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">switch_collection</span><span class="p">(</span><span class="s">&#39;old-users&#39;</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you need to read from another database see
+<a class="reference internal" href="#mongoengine.context_managers.switch_db" title="mongoengine.context_managers.switch_db"><tt class="xref py py-class docutils literal"><span class="pre">switch_db</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>collection_name</strong> &#8211; The database alias to use for saving the
+document</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.switch_db">
+<tt class="descname">switch_db</tt><big>(</big><em>db_alias</em><big>)</big><a class="headerlink" href="#mongoengine.Document.switch_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Temporarily switch the database for a document instance.</p>
+<p>Only really useful for archiving off data and calling <cite>save()</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">switch_db</span><span class="p">(</span><span class="s">&#39;archive-db&#39;</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you need to read from another database see
+<a class="reference internal" href="#mongoengine.context_managers.switch_db" title="mongoengine.context_managers.switch_db"><tt class="xref py py-class docutils literal"><span class="pre">switch_db</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>db_alias</strong> &#8211; The database alias to use for saving the document</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.to_dbref">
+<tt class="descname">to_dbref</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.Document.to_dbref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an instance of <tt class="xref py py-class docutils literal"><span class="pre">DBRef</span></tt> useful in
+<cite>__raw__</cite> queries.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.Document.update">
+<tt class="descname">update</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.Document.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs an update on the <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a>
+A convenience wrapper to <tt class="xref py py-meth docutils literal"><span class="pre">update()</span></tt>.</p>
+<p>Raises <tt class="xref py py-class docutils literal"><span class="pre">OperationError</span></tt> if called on an object that has not yet
+been saved.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.EmbeddedDocument">
+<em class="property">class </em><tt class="descclassname">mongoengine.</tt><tt class="descname">EmbeddedDocument</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.EmbeddedDocument" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> that isn&#8217;t stored in its own
+collection.  <a class="reference internal" href="#mongoengine.EmbeddedDocument" title="mongoengine.EmbeddedDocument"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedDocument</span></tt></a>s should be used as
+fields on <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a>s through the
+<tt class="xref py py-class docutils literal"><span class="pre">EmbeddedDocumentField</span></tt> field type.</p>
+<p>A <a class="reference internal" href="#mongoengine.EmbeddedDocument" title="mongoengine.EmbeddedDocument"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedDocument</span></tt></a> subclass may be itself subclassed,
+to create a specialised version of the embedded document that will be
+stored in the same collection. To facilitate this behaviour a <cite>_cls</cite>
+field is added to documents (hidden though the MongoEngine interface).
+To disable this behaviour and remove the dependence on the presence of
+<cite>_cls</cite> set <tt class="xref py py-attr docutils literal"><span class="pre">allow_inheritance</span></tt> to <tt class="docutils literal"><span class="pre">False</span></tt> in the <tt class="xref py py-attr docutils literal"><span class="pre">meta</span></tt>
+dictionary.</p>
+<dl class="attribute">
+<dt id="mongoengine.EmbeddedDocument.my_metaclass">
+<tt class="descname">my_metaclass</tt><a class="headerlink" href="#mongoengine.EmbeddedDocument.my_metaclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">DocumentMetaclass</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.DynamicDocument">
+<em class="property">class </em><tt class="descclassname">mongoengine.</tt><tt class="descname">DynamicDocument</tt><big>(</big><em>*args</em>, <em>**values</em><big>)</big><a class="headerlink" href="#mongoengine.DynamicDocument" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Dynamic Document class allowing flexible, expandable and uncontrolled
+schemas.  As a <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> subclass, acts in the same
+way as an ordinary document but has expando style properties.  Any data
+passed or set against the <a class="reference internal" href="#mongoengine.DynamicDocument" title="mongoengine.DynamicDocument"><tt class="xref py py-class docutils literal"><span class="pre">DynamicDocument</span></tt></a> that is
+not a field is automatically converted into a
+<a class="reference internal" href="#mongoengine.fields.DynamicField" title="mongoengine.fields.DynamicField"><tt class="xref py py-class docutils literal"><span class="pre">DynamicField</span></tt></a> and data can be attributed to that
+field.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is one caveat on Dynamic Documents: fields cannot start with <cite>_</cite></p>
+</div>
+<p>Initialise a document or embedded document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>__auto_convert</strong> &#8211; Try and will cast python objects to Object types</li>
+<li><strong>values</strong> &#8211; A dictionary of values for the document</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="mongoengine.DynamicDocument.my_metaclass">
+<tt class="descname">my_metaclass</tt><a class="headerlink" href="#mongoengine.DynamicDocument.my_metaclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">TopLevelDocumentMetaclass</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.DynamicEmbeddedDocument">
+<em class="property">class </em><tt class="descclassname">mongoengine.</tt><tt class="descname">DynamicEmbeddedDocument</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.DynamicEmbeddedDocument" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Dynamic Embedded Document class allowing flexible, expandable and
+uncontrolled schemas. See <a class="reference internal" href="#mongoengine.DynamicDocument" title="mongoengine.DynamicDocument"><tt class="xref py py-class docutils literal"><span class="pre">DynamicDocument</span></tt></a> for more
+information about dynamic documents.</p>
+<dl class="attribute">
+<dt id="mongoengine.DynamicEmbeddedDocument.my_metaclass">
+<tt class="descname">my_metaclass</tt><a class="headerlink" href="#mongoengine.DynamicEmbeddedDocument.my_metaclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">DocumentMetaclass</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.document.MapReduceDocument">
+<em class="property">class </em><tt class="descclassname">mongoengine.document.</tt><tt class="descname">MapReduceDocument</tt><big>(</big><em>document</em>, <em>collection</em>, <em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#mongoengine.document.MapReduceDocument" title="Permalink to this definition">¶</a></dt>
+<dd><p>A document returned from a map/reduce query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>collection</strong> &#8211; An instance of <tt class="xref py py-class docutils literal"><span class="pre">Collection</span></tt></li>
+<li><strong>key</strong> &#8211; Document/result key, often an instance of
+<tt class="xref py py-class docutils literal"><span class="pre">ObjectId</span></tt>. If supplied as
+an <tt class="docutils literal"><span class="pre">ObjectId</span></tt> found in the given <tt class="docutils literal"><span class="pre">collection</span></tt>,
+the object can be accessed via the <tt class="docutils literal"><span class="pre">object</span></tt> property.</li>
+<li><strong>value</strong> &#8211; The result(s) for this key.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.3.</span></p>
+<dl class="attribute">
+<dt id="mongoengine.document.MapReduceDocument.object">
+<tt class="descname">object</tt><a class="headerlink" href="#mongoengine.document.MapReduceDocument.object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazy-load the object referenced by <tt class="docutils literal"><span class="pre">self.key</span></tt>. <tt class="docutils literal"><span class="pre">self.key</span></tt>
+should be the <tt class="docutils literal"><span class="pre">primary_key</span></tt>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.ValidationError">
+<em class="property">class </em><tt class="descclassname">mongoengine.</tt><tt class="descname">ValidationError</tt><big>(</big><em>message=''</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.ValidationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validation exception.</p>
+<p>May represent an error validating a field or a
+document containing fields with validation errors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>errors</strong> &#8211; A dictionary of errors for fields within this
+document or list, or None if the error is for an
+individual field.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="mongoengine.ValidationError.to_dict">
+<tt class="descname">to_dict</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.ValidationError.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of all errors within a document</p>
+<p>Keys are field names or list indices and values are the
+validation error messages, or a nested dictionary of
+errors for an embedded document or list.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="context-managers">
+<h2>3.3. Context Managers<a class="headerlink" href="#context-managers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mongoengine.context_managers.switch_db">
+<em class="property">class </em><tt class="descclassname">mongoengine.context_managers.</tt><tt class="descname">switch_db</tt><big>(</big><em>cls</em>, <em>db_alias</em><big>)</big><a class="headerlink" href="#mongoengine.context_managers.switch_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>switch_db alias context manager.</p>
+<p>Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Register connections</span>
+<span class="n">register_connection</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="s">&#39;mongoenginetest&#39;</span><span class="p">)</span>
+<span class="n">register_connection</span><span class="p">(</span><span class="s">&#39;testdb-1&#39;</span><span class="p">,</span> <span class="s">&#39;mongoenginetest2&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">Document</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">()</span>
+
+<span class="n">Group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;test&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c"># Saves in the default db</span>
+
+<span class="k">with</span> <span class="n">switch_db</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="s">&#39;testdb-1&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">Group</span><span class="p">:</span>
+    <span class="n">Group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;hello testdb!&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c"># Saves in testdb-1</span>
+</pre></div>
+</div>
+<p>Construct the switch_db context manager</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cls</strong> &#8211; the class to change the registered db</li>
+<li><strong>db_alias</strong> &#8211; the name of the specific database to use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.context_managers.no_dereference">
+<em class="property">class </em><tt class="descclassname">mongoengine.context_managers.</tt><tt class="descname">no_dereference</tt><big>(</big><em>cls</em><big>)</big><a class="headerlink" href="#mongoengine.context_managers.no_dereference" title="Permalink to this definition">¶</a></dt>
+<dd><p>no_dereference context manager.</p>
+<p>Turns off all dereferencing in Documents for the duration of the context
+manager:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">no_dereference</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span> <span class="k">as</span> <span class="n">Group</span><span class="p">:</span>
+    <span class="n">Group</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">find</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Construct the no_dereference context manager.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cls</strong> &#8211; the class to turn dereferencing off on</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.context_managers.query_counter">
+<em class="property">class </em><tt class="descclassname">mongoengine.context_managers.</tt><tt class="descname">query_counter</tt><a class="headerlink" href="#mongoengine.context_managers.query_counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query_counter context manager to get the number of queries.</p>
+<p>Construct the query_counter.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="querying">
+<h2>3.4. Querying<a class="headerlink" href="#querying" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mongoengine.queryset.QuerySet">
+<em class="property">class </em><tt class="descclassname">mongoengine.queryset.</tt><tt class="descname">QuerySet</tt><big>(</big><em>document</em>, <em>collection</em><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySet" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default queryset, that builds queries and handles a set of results
+returned from a query.</p>
+<p>Wraps a MongoDB cursor, providing <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> objects as
+the results.</p>
+<dl class="method">
+<dt id="mongoengine.queryset.QuerySet.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>q_obj=None</em>, <em>class_check=True</em>, <em>slave_okay=False</em>, <em>read_preference=None</em>, <em>**query</em><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySet.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter the selected documents by calling the
+<a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a> with a query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>q_obj</strong> &#8211; a <tt class="xref py py-class docutils literal"><span class="pre">Q</span></tt> object to be used in
+the query; the <a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a> is filtered
+multiple times with different <tt class="xref py py-class docutils literal"><span class="pre">Q</span></tt>
+objects, only the last one will be used</li>
+<li><strong>class_check</strong> &#8211; If set to False bypass class name check when
+querying collection</li>
+<li><strong>slave_okay</strong> &#8211; if True, allows this query to be run against a
+replica secondary.</li>
+<li><strong>query</strong> &#8211; Django-style query keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Params read_preference:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">if set, overrides connection-level
+read_preference from <cite>ReplicaSetConnection</cite>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.queryset.QuerySet.count">
+<tt class="descname">count</tt><big>(</big><em>with_limit_and_skip=True</em><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySet.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the selected elements in the query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>(optional)</strong> (<em>with_limit_and_skip</em>) &#8211; take any <tt class="xref py py-meth docutils literal"><span class="pre">limit()</span></tt> or
+<tt class="xref py py-meth docutils literal"><span class="pre">skip()</span></tt> that has been applied to this cursor into account when
+getting the count</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.queryset.QuerySet.no_cache">
+<tt class="descname">no_cache</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySet.no_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to a non_caching queryset</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.8.3: </span>Convert to non caching queryset</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.queryset.QuerySetNoCache">
+<em class="property">class </em><tt class="descclassname">mongoengine.queryset.</tt><tt class="descname">QuerySetNoCache</tt><big>(</big><em>document</em>, <em>collection</em><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySetNoCache" title="Permalink to this definition">¶</a></dt>
+<dd><p>A non caching QuerySet</p>
+<dl class="method">
+<dt id="mongoengine.queryset.QuerySetNoCache.__call__">
+<tt class="descname">__call__</tt><big>(</big><em>q_obj=None</em>, <em>class_check=True</em>, <em>slave_okay=False</em>, <em>read_preference=None</em>, <em>**query</em><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySetNoCache.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter the selected documents by calling the
+<a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a> with a query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>q_obj</strong> &#8211; a <tt class="xref py py-class docutils literal"><span class="pre">Q</span></tt> object to be used in
+the query; the <a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a> is filtered
+multiple times with different <tt class="xref py py-class docutils literal"><span class="pre">Q</span></tt>
+objects, only the last one will be used</li>
+<li><strong>class_check</strong> &#8211; If set to False bypass class name check when
+querying collection</li>
+<li><strong>slave_okay</strong> &#8211; if True, allows this query to be run against a
+replica secondary.</li>
+<li><strong>query</strong> &#8211; Django-style query keyword arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Params read_preference:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">if set, overrides connection-level
+read_preference from <cite>ReplicaSetConnection</cite>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mongoengine.queryset.QuerySetNoCache.cache">
+<tt class="descname">cache</tt><big>(</big><big>)</big><a class="headerlink" href="#mongoengine.queryset.QuerySetNoCache.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to a caching queryset</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.8.3: </span>Convert to caching queryset</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="mongoengine.queryset.queryset_manager">
+<tt class="descclassname">mongoengine.queryset.</tt><tt class="descname">queryset_manager</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#mongoengine.queryset.queryset_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator that allows you to define custom QuerySet managers on
+<a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> classes. The manager must be a function that
+accepts a <a class="reference internal" href="#mongoengine.Document" title="mongoengine.Document"><tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt></a> class as its first argument, and a
+<a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a> as its second argument. The method
+function should return a <a class="reference internal" href="#mongoengine.queryset.QuerySet" title="mongoengine.queryset.QuerySet"><tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></a>, probably
+the same one that was passed in, but modified in some way.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="fields">
+<h2>3.5. Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mongoengine.base.fields.BaseField">
+<em class="property">class </em><tt class="descclassname">mongoengine.base.fields.</tt><tt class="descname">BaseField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.base.fields.BaseField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class for fields in a MongoDB document. Instances of this class
+may be added to subclasses of <cite>Document</cite> to define a document&#8217;s schema.</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.5: </span>- added verbose and help text</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.StringField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">StringField</tt><big>(</big><em>regex=None</em>, <em>max_length=None</em>, <em>min_length=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.StringField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unicode string field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.URLField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">URLField</tt><big>(</big><em>verify_exists=False</em>, <em>url_regex=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.URLField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A field that validates input as an URL.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.3.</span></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.EmailField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">EmailField</tt><big>(</big><em>regex=None</em>, <em>max_length=None</em>, <em>min_length=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.EmailField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A field that validates input as an E-Mail-Address.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.4.</span></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.IntField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">IntField</tt><big>(</big><em>min_value=None</em>, <em>max_value=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.IntField" title="Permalink to this definition">¶</a></dt>
+<dd><p>An 32-bit integer field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.LongField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">LongField</tt><big>(</big><em>min_value=None</em>, <em>max_value=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.LongField" title="Permalink to this definition">¶</a></dt>
+<dd><p>An 64-bit integer field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.FloatField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">FloatField</tt><big>(</big><em>min_value=None</em>, <em>max_value=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.FloatField" title="Permalink to this definition">¶</a></dt>
+<dd><p>An floating point number field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.DecimalField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">DecimalField</tt><big>(</big><em>min_value=None</em>, <em>max_value=None</em>, <em>force_string=False</em>, <em>precision=2</em>, <em>rounding='ROUND_HALF_UP'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.DecimalField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A fixed-point decimal number field.</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.8.</span></p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.3.</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>min_value</strong> &#8211; Validation rule for the minimum acceptable value.</li>
+<li><strong>max_value</strong> &#8211; Validation rule for the maximum acceptable value.</li>
+<li><strong>force_string</strong> &#8211; Store as a string.</li>
+<li><strong>precision</strong> &#8211; Number of decimal places to store.</li>
+<li><strong>rounding</strong> &#8211; <p>The rounding rule from the python decimal libary:</p>
+<ul>
+<li>decimal.ROUND_CEILING (towards Infinity)</li>
+<li>decimal.ROUND_DOWN (towards zero)</li>
+<li>decimal.ROUND_FLOOR (towards -Infinity)</li>
+<li>decimal.ROUND_HALF_DOWN (to nearest with ties going towards zero)</li>
+<li>decimal.ROUND_HALF_EVEN (to nearest with ties going to nearest even integer)</li>
+<li>decimal.ROUND_HALF_UP (to nearest with ties going away from zero)</li>
+<li>decimal.ROUND_UP (away from zero)</li>
+<li>decimal.ROUND_05UP (away from zero if last digit after rounding towards zero would have been 0 or 5; otherwise towards zero)</li>
+</ul>
+<p>Defaults to: <tt class="docutils literal"><span class="pre">decimal.ROUND_HALF_UP</span></tt></p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.BooleanField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">BooleanField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.BooleanField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean field type.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.1.2.</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.DateTimeField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">DateTimeField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.DateTimeField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A datetime field.</p>
+<p>Uses the python-dateutil library if available alternatively use time.strptime
+to parse the dates.  Note: python-dateutil&#8217;s parser is fully featured and when
+installed you can utilise it to convert varing types of date formats into valid
+python datetime objects.</p>
+<dl class="docutils">
+<dt>Note: Microseconds are rounded to the nearest millisecond.</dt>
+<dd>Pre UTC microsecond support is effecively broken.
+Use <a class="reference internal" href="#mongoengine.fields.ComplexDateTimeField" title="mongoengine.fields.ComplexDateTimeField"><tt class="xref py py-class docutils literal"><span class="pre">ComplexDateTimeField</span></tt></a> if you
+need accurate microsecond support.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ComplexDateTimeField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ComplexDateTimeField</tt><big>(</big><em>separator='</em>, <em>'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.ComplexDateTimeField" title="Permalink to this definition">¶</a></dt>
+<dd><p>ComplexDateTimeField handles microseconds exactly instead of rounding
+like DateTimeField does.</p>
+<p>Derives from a StringField so you can do <cite>gte</cite> and <cite>lte</cite> filtering by
+using lexicographical comparison when filtering / sorting strings.</p>
+<p>The stored string has the following format:</p>
+<blockquote>
+<div>YYYY,MM,DD,HH,MM,SS,NNNNNN</div></blockquote>
+<p>Where NNNNNN is the number of microseconds of the represented <cite>datetime</cite>.
+The <cite>,</cite> as the separator can be easily modified by passing the <cite>separator</cite>
+keyword when initializing the field.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.5.</span></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.EmbeddedDocumentField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">EmbeddedDocumentField</tt><big>(</big><em>document_type</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.EmbeddedDocumentField" title="Permalink to this definition">¶</a></dt>
+<dd><p>An embedded document field - with a declared document_type.
+Only valid values are subclasses of <a class="reference internal" href="#mongoengine.EmbeddedDocument" title="mongoengine.EmbeddedDocument"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedDocument</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.GenericEmbeddedDocumentField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">GenericEmbeddedDocumentField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.GenericEmbeddedDocumentField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A generic embedded document field - allows any
+<a class="reference internal" href="#mongoengine.EmbeddedDocument" title="mongoengine.EmbeddedDocument"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedDocument</span></tt></a> to be stored.</p>
+<p>Only valid values are subclasses of <a class="reference internal" href="#mongoengine.EmbeddedDocument" title="mongoengine.EmbeddedDocument"><tt class="xref py py-class docutils literal"><span class="pre">EmbeddedDocument</span></tt></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can use the choices param to limit the acceptable
+EmbeddedDocument types</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.DynamicField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">DynamicField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.DynamicField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A truly dynamic field type capable of handling different and varying
+types of data.</p>
+<p>Used by <a class="reference internal" href="#mongoengine.DynamicDocument" title="mongoengine.DynamicDocument"><tt class="xref py py-class docutils literal"><span class="pre">DynamicDocument</span></tt></a> to handle dynamic data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ListField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ListField</tt><big>(</big><em>field=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.ListField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list field that wraps a standard field, allowing multiple instances
+of the field to be used as a list in the database.</p>
+<p>If using with ReferenceFields see: <a class="reference internal" href="guide/defining-documents.html#one-to-many-with-listfields"><em>One to Many with ListFields</em></a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Required means it cannot be empty - as the default for ListFields is []</p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.SortedListField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">SortedListField</tt><big>(</big><em>field</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.SortedListField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A ListField that sorts the contents of its list before writing to
+the database in order to ensure that a sorted list is always
+retrieved.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There is a potential race condition when handling lists.  If you set /
+save the whole list then other processes trying to save the whole list
+as well could overwrite changes.  The safest way to append to a list is
+to perform a push operation.</p>
+</div>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.4.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6: </span>- added reverse keyword</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.DictField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">DictField</tt><big>(</big><em>basecls=None</em>, <em>field=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.DictField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary field that wraps a standard Python dictionary. This is
+similar to an embedded document, but the structure is not defined.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Required means it cannot be empty - as the default for ListFields is []</p>
+</div>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.3.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.5: </span>- Can now handle complex / varying types of data</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.MapField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">MapField</tt><big>(</big><em>field=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.MapField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A field that maps a name to a specified field type. Similar to
+a DictField, except the &#8216;value&#8217; of each item must match the specified
+field type.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.5.</span></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ReferenceField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ReferenceField</tt><big>(</big><em>document_type</em>, <em>dbref=False</em>, <em>reverse_delete_rule=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.ReferenceField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reference to a document that will be automatically dereferenced on
+access (lazily).</p>
+<p>Use the <cite>reverse_delete_rule</cite> to handle what should happen if the document
+the field is referencing is deleted.  EmbeddedDocuments, DictFields and
+MapFields do not support reverse_delete_rules and an <cite>InvalidDocumentError</cite>
+will be raised if trying to set on one of these Document / Field types.</p>
+<p>The options are:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">DO_NOTHING  - don&#8217;t do anything (default).</p>
+</li>
+<li><p class="first">NULLIFY     - Updates the reference to null.</p>
+</li>
+<li><p class="first">CASCADE     - Deletes the documents associated with the reference.</p>
+</li>
+<li><p class="first">DENY        - Prevent the deletion of the reference object.</p>
+</li>
+<li><dl class="first docutils">
+<dt>PULL        - Pull the reference from a <a class="reference internal" href="#mongoengine.fields.ListField" title="mongoengine.fields.ListField"><tt class="xref py py-class docutils literal"><span class="pre">ListField</span></tt></a></dt>
+<dd><p class="first last">of references</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Alternative syntax for registering delete rules (useful when implementing
+bi-directional delete rules)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="n">Document</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">()</span>
+    <span class="n">foo</span> <span class="o">=</span> <span class="n">ReferenceField</span><span class="p">(</span><span class="s">&#39;Foo&#39;</span><span class="p">)</span>
+
+<span class="n">Bar</span><span class="o">.</span><span class="n">register_delete_rule</span><span class="p">(</span><span class="n">Foo</span><span class="p">,</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="n">NULLIFY</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>reverse_delete_rules</cite> do not trigger pre / post delete signals to be
+triggered.</p>
+</div>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.5: </span>added <cite>reverse_delete_rule</cite></p>
+<p>Initialises the Reference Field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbref</strong> &#8211; Store the reference as <tt class="xref py py-class docutils literal"><span class="pre">DBRef</span></tt>
+or as the <tt class="xref py py-class docutils literal"><span class="pre">ObjectId</span></tt>.id .</li>
+<li><strong>reverse_delete_rule</strong> &#8211; Determines what to do when the referring
+object is deleted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.GenericReferenceField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">GenericReferenceField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.GenericReferenceField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reference to <em>any</em> <tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt> subclass
+that will be automatically dereferenced on access (lazily).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Any documents used as a generic reference must be registered in the
+document registry.  Importing the model will automatically register
+it.</li>
+<li>You can use the choices param to limit the acceptable Document types</li>
+</ul>
+</div>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.3.</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.BinaryField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">BinaryField</tt><big>(</big><em>max_bytes=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.BinaryField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A binary data field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.FileField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">FileField</tt><big>(</big><em>db_alias='default'</em>, <em>collection_name='fs'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.FileField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A GridFS storage field.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.4.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.5: </span>added optional size param for read</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6: </span>added db_alias for multidb support</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ImageField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ImageField</tt><big>(</big><em>size=None</em>, <em>thumbnail_size=None</em>, <em>collection_name='images'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.ImageField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Image File storage field.</p>
+<dl class="docutils">
+<dt>&#64;size (width, height, force):</dt>
+<dd>max size to store images, if larger will be automatically resized
+ex: size=(800, 600, True)</dd>
+<dt>&#64;thumbnail (width, height, force):</dt>
+<dd>size to generate a thumbnail</dd>
+</dl>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6.</span></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.SequenceField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">SequenceField</tt><big>(</big><em>collection_name=None</em>, <em>db_alias=None</em>, <em>sequence_name=None</em>, <em>value_decorator=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.SequenceField" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Provides a sequental counter see:</dt>
+<dd><a class="reference external" href="http://www.mongodb.org/display/DOCS/Object+IDs#ObjectIDs-SequenceNumbers">http://www.mongodb.org/display/DOCS/Object+IDs#ObjectIDs-SequenceNumbers</a></dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Although traditional databases often use increasing sequence
+numbers for primary keys. In MongoDB, the preferred approach is to
+use Object IDs instead.  The concept is that in a very large
+cluster of machines, it is easier to create an object ID than have
+global, uniformly increasing sequence numbers.</p>
+</div>
+<p>Use any callable as <cite>value_decorator</cite> to transform calculated counter into
+any value suitable for your needs, e.g. string or hexadecimal
+representation of the default integer counter value.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.5.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.8: </span>added <cite>value_decorator</cite></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ObjectIdField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ObjectIdField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.ObjectIdField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A field wrapper around MongoDB&#8217;s ObjectIds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.UUIDField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">UUIDField</tt><big>(</big><em>binary=True</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.UUIDField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A UUID field.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6.</span></p>
+<p>Store UUID data in the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>binary</strong> &#8211; if False store as a string.</td>
+</tr>
+</tbody>
+</table>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.8.0.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6.19.</span></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.GeoPointField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">GeoPointField</tt><big>(</big><em>db_field=None</em>, <em>name=None</em>, <em>required=False</em>, <em>default=None</em>, <em>unique=False</em>, <em>unique_with=None</em>, <em>primary_key=False</em>, <em>validation=None</em>, <em>choices=None</em>, <em>verbose_name=None</em>, <em>help_text=None</em><big>)</big><a class="headerlink" href="#mongoengine.fields.GeoPointField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list storing a latitude and longitude.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.4.</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>db_field</strong> &#8211; The database field to store this field in
+(defaults to the name of the field)</li>
+<li><strong>name</strong> &#8211; Depreciated - use db_field</li>
+<li><strong>required</strong> &#8211; If the field is required. Whether it has to have a
+value or not. Defaults to False.</li>
+<li><strong>default</strong> &#8211; (optional) The default value for this field if no value
+has been set (or if the value has been unset).  It Can be a
+callable.</li>
+<li><strong>unique</strong> &#8211; Is the field value unique or not.  Defaults to False.</li>
+<li><strong>unique_with</strong> &#8211; (optional) The other field this field should be
+unique with.</li>
+<li><strong>primary_key</strong> &#8211; Mark this field as the primary key. Defaults to False.</li>
+<li><strong>validation</strong> &#8211; (optional) A callable to validate the value of the
+field.  Generally this is deprecated in favour of the
+<cite>FIELD.validate</cite> method</li>
+<li><strong>choices</strong> &#8211; (optional) The valid choices</li>
+<li><strong>verbose_name</strong> &#8211; (optional)  The verbose name for the field.
+Designed to be human readable and is often used when generating
+model forms from the document model.</li>
+<li><strong>help_text</strong> &#8211; (optional) The help text for this field and is often
+used when generating model forms from the document model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.PointField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">PointField</tt><big>(</big><em>auto_index=True</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.PointField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A geo json field storing a latitude and longitude.</p>
+<p>The data is represented as:</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="p">{</span> <span class="s2">&quot;type&quot;</span> <span class="o">:</span> <span class="s2">&quot;Point&quot;</span> <span class="p">,</span>
+  <span class="s2">&quot;coordinates&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>You can either pass a dict with the full information or a list
+to set the value.</p>
+<p>Requires mongodb &gt;= 2.4
+.. versionadded:: 0.8</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>auto_index</strong> &#8211; Automatically create a &#8220;2dsphere&#8221; index. Defaults
+to <cite>True</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.LineStringField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">LineStringField</tt><big>(</big><em>auto_index=True</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.LineStringField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A geo json field storing a line of latitude and longitude coordinates.</p>
+<p>The data is represented as:</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="p">{</span> <span class="s2">&quot;type&quot;</span> <span class="o">:</span> <span class="s2">&quot;LineString&quot;</span> <span class="p">,</span>
+  <span class="s2">&quot;coordinates&quot;</span> <span class="o">:</span> <span class="p">[[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">],</span> <span class="p">[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">]</span> <span class="p">...</span> <span class="p">[</span><span class="nx">xn</span><span class="p">,</span> <span class="nx">yn</span><span class="p">]]}</span>
+</pre></div>
+</div>
+<p>You can either pass a dict with the full information or a list of points.</p>
+<p>Requires mongodb &gt;= 2.4
+.. versionadded:: 0.8</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>auto_index</strong> &#8211; Automatically create a &#8220;2dsphere&#8221; index. Defaults
+to <cite>True</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.PolygonField">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">PolygonField</tt><big>(</big><em>auto_index=True</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#mongoengine.fields.PolygonField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A geo json field storing a polygon of latitude and longitude coordinates.</p>
+<p>The data is represented as:</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="p">{</span> <span class="s2">&quot;type&quot;</span> <span class="o">:</span> <span class="s2">&quot;Polygon&quot;</span> <span class="p">,</span>
+  <span class="s2">&quot;coordinates&quot;</span> <span class="o">:</span> <span class="p">[[[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">],</span> <span class="p">[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">]</span> <span class="p">...</span> <span class="p">[</span><span class="nx">xn</span><span class="p">,</span> <span class="nx">yn</span><span class="p">]],</span>
+                   <span class="p">[[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">],</span> <span class="p">[</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">]</span> <span class="p">...</span> <span class="p">[</span><span class="nx">xn</span><span class="p">,</span> <span class="nx">yn</span><span class="p">]]}</span>
+</pre></div>
+</div>
+<p>You can either pass a dict with the full information or a list
+of LineStrings. The first LineString being the outside and the rest being
+holes.</p>
+<p>Requires mongodb &gt;= 2.4
+.. versionadded:: 0.8</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>auto_index</strong> &#8211; Automatically create a &#8220;2dsphere&#8221; index. Defaults
+to <cite>True</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.GridFSError">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">GridFSError</tt><a class="headerlink" href="#mongoengine.fields.GridFSError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.GridFSProxy">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">GridFSProxy</tt><big>(</big><em>grid_id=None</em>, <em>key=None</em>, <em>instance=None</em>, <em>db_alias='default'</em>, <em>collection_name='fs'</em><big>)</big><a class="headerlink" href="#mongoengine.fields.GridFSProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proxy object to handle writing and reading of files to and from GridFS</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.4.</span></p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.5: </span>- added optional size param to read</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6: </span>- added collection name param</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ImageGridFsProxy">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ImageGridFsProxy</tt><big>(</big><em>grid_id=None</em>, <em>key=None</em>, <em>instance=None</em>, <em>db_alias='default'</em>, <em>collection_name='fs'</em><big>)</big><a class="headerlink" href="#mongoengine.fields.ImageGridFsProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proxy for ImageField</p>
+<p>versionadded: 0.6</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mongoengine.fields.ImproperlyConfigured">
+<em class="property">class </em><tt class="descclassname">mongoengine.fields.</tt><tt class="descname">ImproperlyConfigured</tt><a class="headerlink" href="#mongoengine.fields.ImproperlyConfigured" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="misc">
+<h2>3.6. Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="mongoengine.common._import_class">
+<tt class="descclassname">mongoengine.common.</tt><tt class="descname">_import_class</tt><big>(</big><em>cls_name</em><big>)</big><a class="headerlink" href="#mongoengine.common._import_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cache mechanism for imports.</p>
+<p>Due to complications of circular imports mongoengine needs to do lots of
+inline imports in functions.  This is inefficient as classes are
+imported repeated throughout the mongoengine code.  This is
+compounded by some recursive functions requiring inline imports.</p>
+<p><tt class="xref py py-mod docutils literal"><span class="pre">mongoengine.common</span></tt> provides a single point to import all these
+classes.  Circular imports aren&#8217;t an issue as it dynamically imports the
+class when first needed.  Subsequent calls to the
+<a class="reference internal" href="#mongoengine.common._import_class" title="mongoengine.common._import_class"><tt class="xref py py-func docutils literal"><span class="pre">_import_class()</span></tt></a> can then directly retrieve the
+class from the <tt class="xref py py-data docutils literal"><span class="pre">mongoengine.common._class_registry_cache</span></tt>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. API Reference</a><ul>
+<li><a class="reference internal" href="#connecting">3.1. Connecting</a></li>
+<li><a class="reference internal" href="#documents">3.2. Documents</a></li>
+<li><a class="reference internal" href="#context-managers">3.3. Context Managers</a></li>
+<li><a class="reference internal" href="#querying">3.4. Querying</a></li>
+<li><a class="reference internal" href="#fields">3.5. Fields</a></li>
+<li><a class="reference internal" href="#misc">3.6. Misc</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="guide/signals.html"
+                        title="previous chapter">2.7. Signals</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changelog.html"
+                        title="next chapter">4. Changelog</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="changelog.html" title="4. Changelog"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="guide/signals.html" title="2.7. Signals"
+             >previous</a> |</li>
+        <li><a href="index.html">MongoEngine 0.8.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2009, MongoEngine Authors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+.
+    </div>
+ <!-- End original user content -->
+
+
+<br/>
+<br/>
+<br/>
+
+
+<style type="text/css">
+  #version_menu, .rtd-badge.rtd {
+    -webkit-transition: all 0.25s 0.75s;
+    transition: all 0.25s 0.75s;
+  }
+  .footer_popout:hover #version_menu, .footer_popout:hover .rtd-badge.rtd {
+    -webkit-transition: all 0.25s 0s;
+    transition: all 0.25s 0s;
+  }
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    bottom: 11px;
+    right: 47px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    visibility: visible;
+    opacity: 1;
+    right: 166px;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll top left no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/mongoengine-odm/?fromdocs=mongoengine-odm" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39039482-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

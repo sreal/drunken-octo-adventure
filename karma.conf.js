@@ -5,6 +5,7 @@ files = [
   'js/vendor/angular.min.js',
   'js/vendor/angular-mocks.js',
   'js/vendor/underscore-min.js',
+  'js/vendor/mousetrap.min.js',
   'js/public/**/app.js',
   'test/js/*.js',
 ];

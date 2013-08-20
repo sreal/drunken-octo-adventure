@@ -232,7 +232,7 @@ describe("app: ", function() {
                 $scope.$apply();
                 expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111")]);
             });
-            iit('can unlimit results', function(){
+            it('can unlimit results', function(){
                 $scope.filterLimit = 1;
                 $scope.init();
                 $scope.filter = "";
@@ -257,19 +257,19 @@ describe("app: ", function() {
             $scope.select(createCmd("AAAAAA", "AAAAAA description", "111"));
             expect($scope.selected).toEqual(createCmd("AAAAAA", "AAAAAA description", "111"));
         });
-        it('can un-select', function(){
-            $scope.init();
-            $scope.selected = createCmd("AAAAAA", "AAAAAA description", "111");
-            $scope.select();
-            expect($scope.selected).toBeUndefined();
-        });
-        it('can un-select if already selected', function(){
-            $scope.init();
-            var select = createCmd("AAAAAA", "AAAAAA description", "111");
-            $scope.selected = select;
-            $scope.select(select);
-            expect($scope.selected).toBeUndefined();
-        });
+        // it('can un-select', function(){
+        //     $scope.init();
+        //     $scope.selected = createCmd("AAAAAA", "AAAAAA description", "111");
+        //     $scope.select();
+        //     expect($scope.selected).toBeUndefined();
+        // });
+        // it('can un-select if already selected', function(){
+        //     $scope.init();
+        //     var select = createCmd("AAAAAA", "AAAAAA description", "111");
+        //     $scope.selected = select;
+        //     $scope.select(select);
+        //     expect($scope.selected).toBeUndefined();
+        // });
         it('will select item if only one in filtered list', function(){
             $scope.init();
             $scope.filter = "AAAAAA";
@@ -306,5 +306,49 @@ describe("app: ", function() {
             $scope.remove(createCmd("AAAAAA", "AAAAAA description", "111"));
             expect($scope.all).toEqual(spyResp);
         });
+
+        describe('shortcuts', function(){
+            it('can select next', function(done){
+                $scope.init();
+                var items = createCmd();
+                $scope.mousetrap.next();
+                expect($scope.selected.name).toEqual("AAAAAA");
+            });
+            iit('can select next after a selection', function(done){
+                $scope.init();
+                var items = createCmd();
+                $scope.select($scope.filtered[0]);
+                $scope.mousetrap.next();
+                $scope.$apply();
+                expect($scope.selected.name).toEqual("BBBBBB");
+            });
+            it('can select prev', function(done){
+                $scope.init();
+                var items = createCmd();
+                $scope.mousetrap.prev();
+                $scope.$digest();
+                expect($scope.selected.name).toEqual("AAAAAA");
+            });
+            it('can select prev after a selection', function(done){
+                $scope.init();
+                var items = createCmd();
+                $scope.select($scope.filtered[1]);
+                $scope.mousetrap.prev();
+                expect($scope.selected.name).toEqual("AAAAAA");
+            });
+            it('does not go past start', function(done){
+                $scope.init();
+                var items = createCmd();
+                $scope.select($scope.filtered[0]);
+                $scope.mousetrap.prev();
+                expect($scope.selected.name).toEqual("AAAAAA");
+            });
+
+        });
+
+        it('', function(done){
+
+        });
+
     }); // command controller
 });// describe app
