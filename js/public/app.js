@@ -33,15 +33,21 @@ angular.module('services').factory('DataService', ['$rootScope', function($rootS
 
 angular.module('controllers', ['services']);
 angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService', function($scope, DataService) {
+    $scope.filterLimit = 50;
+    $scope.filterIsLimited = true;
     $scope.all = [];
     $scope.filtered = [];
     $scope.filter = "";
     $scope.apiFilter = "";
     $scope.selected;
+    $scope.apis = [];
 
-    var nameFiltered = [];
-    $scope.$watch("filter", function() {
-        nameFiltered = _.filter($scope.all, function(item) {
+    $scope.$watch("all", function() {
+        $scope.apis = _.uniq(_.pluck($scope.all, 'api'), true);
+    });
+
+    var filterAll = function(unlimited) {
+        var nameFiltered = _.filter($scope.all, function(item) {
             var filterItems = $scope.filter.split(' ');
             var match = _.find(filterItems, function(f){
                 return -1 !== item.name.toLowerCase().indexOf(f.toLowerCase()) ||
@@ -49,21 +55,34 @@ angular.module('controllers').controller('CommandCtrl', ['$scope', 'DataService'
             });
             return !_.isUndefined(match);
         });
-        $scope.filtered = _.intersection(apiFiltered, nameFiltered);
-    });
-    var apiFiltered = [];
-    $scope.$watch("apiFilter", function() {
-        apiFiltered = _.filter($scope.all, function(item) {
+        var apiFiltered = _.filter($scope.all, function(item) {
             var filterItems = $scope.apiFilter.split(' ');
             var match = _.find(filterItems, function(f){
                 return -1 !== item.api.toLowerCase().indexOf(f.toLowerCase());
             });
             return !_.isUndefined(match);
         });
-        $scope.filtered = _.intersection(apiFiltered, nameFiltered);
+
+        if (unlimited) {
+            $scope.filterIsLimited = false;
+            $scope.filtered = _.intersection(apiFiltered, nameFiltered);
+        } else {
+            var list = _.intersection(apiFiltered, nameFiltered);
+            $scope.filterIsLimited = (list.length > $scope.filterLimit);
+            $scope.filtered = _.first(list, $scope.filterLimit);
+        }
+
+        $scope.selected = _.first($scope.filtered);
+    }
+    $scope.$watch("filter", function() {
+        filterAll();
     });
-
-
+    $scope.$watch("apiFilter", function() {
+        filterAll();
+    });
+    $scope.unlimit = function(){
+        filterAll(true);
+    }
 
     $scope.add = function(item) {
         $scope.all = DataService.addCommand(item);

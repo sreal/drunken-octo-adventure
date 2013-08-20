@@ -221,13 +221,33 @@ describe("app: ", function() {
             });
             it('has a filter for that shows all when cleared', function(){
                 $scope.init();
-                $scope.apiFilter = "";
                 $scope.filter = "";
                 $scope.$apply();
                 expect($scope.filtered).toEqual( testCmds() );
             });
+            it('limits results', function(){
+                $scope.filterLimit = 1;
+                $scope.init();
+                $scope.filter = "a b c d";
+                $scope.$apply();
+                expect($scope.filtered).toEqual([createCmd("AAAAAA", "AAAAAA description", "111")]);
+            });
+            iit('can unlimit results', function(){
+                $scope.filterLimit = 1;
+                $scope.init();
+                $scope.filter = "";
+                $scope.$apply();
+                $scope.unlimit();
+                expect($scope.filtered).toEqual( testCmds() );
+            });
         });
 
+
+        it('has a list of apis', function(){
+            $scope.init();
+            $scope.$apply();
+            expect($scope.apis).toEqual( ["111", "222", "GGG"] );
+        });
         it('has a selected item', function(){
             $scope.init();
             expect($scope.selected).toBeUndefined(null);
@@ -249,6 +269,12 @@ describe("app: ", function() {
             $scope.selected = select;
             $scope.select(select);
             expect($scope.selected).toBeUndefined();
+        });
+        it('will select item if only one in filtered list', function(){
+            $scope.init();
+            $scope.filter = "AAAAAA";
+            $scope.$apply();
+            expect($scope.selected).toEqual(createCmd("AAAAAA", "AAAAAA description", "111"));
         });
         it('can test isSelected', function(){
             $scope.init();
